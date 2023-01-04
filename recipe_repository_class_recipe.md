@@ -141,74 +141,43 @@ These examples will later be encoded as RSpec tests.
 
 repo = RecipeRepository.new
 
-albums = repo.all
+recipes = repo.all
 
-albums.length # =>  2
+recipes.length # =>  2
 
-albums[0].id # =>  1
-albums[0].title # =>  'Greatest Hits 1'
-albums[0].release_year # =>  '1980'
-albums[0].artist_id # => 1
+recipes[0].id # =>  1
+recipes[0].name # =>  'Toad in the Hole'
+recipes[0].cooking_time # =>  '45'
+recipes[0].rating # => 4
 
-albums[1].id # =>  2
-albums[1].title # =>  'Greatest Hits 2'
-albums[1].release_year # =>  '1999'
-albums[1].artist_id # => 2
+recipes[1].id # =>  2
+recipes[1].name # =>  'Sphagetti Bolognese'
+recipes[1].cooking_time # =>  '60'
+recipes[1].rating # => 5
 
 # 2
-# Get a single album
+# Get a single recipe
 
 repo = AlbumRepository.new
 
-album = repo.find(1)
+recipe = repo.find(1)
 
-album.id # =>  1
-album.title # =>  'Greatest Hits 1'
-album.release_year # =>  '1980'
-album.artist_id # => 1
+recipe.id # =>  1
+recipe.name # =>  'Toad in the Hole'
+recipe.cooking_time # =>  '45'
+recipe.rating # => 4
 
 # 3
-# Create an album entry
+# Get a single recipe
 
 repo = AlbumRepository.new
 
-new_album = repo.create('Greatest Hits 3', '1992', '3')
-album = repo.find(3)
+recipe = repo.find(2)
 
-album.id # => 3  
-album.title # =>  'Greatest Hits 3'
-album.release_year # =>  '1992'
-album.artist_id # => 3
-
-# 4 
-# Update an album
-
-repo = AlbumRepository.new
-
-update_album = repo.update('release_year', '1992', '2')
-album = repo.find(2)
-
-album.id # =>  2
-album.title # =>  'Greatest Hits 2'
-album.release_year # =>  '1992'
-album.artist_id # => 2
-
-# 5
-# Delete an album
-
-repo = AlbumRepository.new
-
-delete_album = repo.delete('2')
-albums = repo.all
-
-albums.length # =>  1
-
-albums[0].id # =>  1
-albums[0].title # =>  'Greatest Hits 1'
-albums[0].release_year # =>  '1980'
-albums[0].artist_id # => 1
-
-# Add more examples for each method
+recipe.id # =>  1
+recipe.name # =>  'Sphagetti Bolognese'
+recipe.cooking_time # =>  '60'
+recipe.rating # => 5
 ```
 
 Encode this example as a test.
@@ -222,17 +191,17 @@ This is so you get a fresh table contents every time you run the test suite.
 ```ruby
 # EXAMPLE
 
-# file: spec/student_repository_spec.rb
+# file: spec/recipe_repository_spec.rb
 
-def reset_students_table
-  seed_sql = File.read('spec/seeds_students.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+def reset_recipe_table
+  seed_sql = File.read('spec/seeds_recipes.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'recipes_directory_test' })
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe RecipeRepository do
   before(:each) do 
-    reset_students_table
+    reset_recipes_table
   end
 
   # (your tests will go here).
